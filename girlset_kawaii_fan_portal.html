@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✨ GIRLSET x KAWAII WORLD ✨ | Official LOCKET Fan Portal</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'pastel-pink': '#FFC6FF',
+            'pastel-purple': '#E8AEFF',
+            'pastel-blue': '#A0C4FF',
+            'pastel-mint': '#CAFFBF',
+            'pastel-yellow': '#FDFFB6',
+            'pastel-peach': '#FFADAD',
+            'kawaii-dark': '#4A3B53',
+            'kawaii-card': 'rgba(255, 255, 255, 0.75)'
+          },
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffd6ff 0%, #e7c6ff 30%, #c8b6ff 60%, #b8c0ff 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #4A3B53;
+    }
+
+    h1, h2, h3, .font-bubbly {
+      font-family: 'Fredoka', sans-serif;
+    }
+
+    /* Glassmorphism containers */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 10px 30px rgba(184, 134, 203, 0.25), inset 0 0 15px rgba(255, 255, 255, 0.5);
+    }
+
+    /* Bubbly Buttons */
+    .bubbly-btn {
+      transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+      box-shadow: 0 6px 0 rgba(175, 120, 195, 0.4);
+    }
+    .bubbly-btn:hover {
+      transform: translateY(-4px) scale(1.03);
+      box-shadow: 0 10px 0 rgba(175, 120, 195, 0.3);
+    }
+    .bubbly-btn:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 0 rgba(175, 120, 195, 0.5);
+    }
+
+    /* Floating elements */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(3deg); }
+    }
+    .floating-element {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    /* Heart particle element */
+    .floating-heart {
+      position: fixed;
+      pointer-events: none;
+      animation: moveUpFade 1.5s ease-out forwards;
+      z-index: 9999;
+    }
+    @keyframes moveUpFade {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-80px) scale(1.6); opacity: 0; }
+    }
+
+    /* Flip Card CSS */
+    .flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 1.5rem;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Sparkle Cursor Canvas */
+    #cursor-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9990;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #ffd6ff;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c8b6ff;
+      border-radius: 10px;
+      border: 3px solid #ffd6ff;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen">
+
+  <canvas id="cursor-canvas"></canvas>
+
+  <header class="sticky top-0 z-50 px-4 py-3">
+    <div class="max-w-6xl mx-auto glass-card rounded-full px-6 py-3 flex items-center justify-between shadow-lg">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToTop()">
+        <span class="text-3xl animate-bounce">💖</span>
+        <span class="font-bubbly text-2xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent">
+          GIRLSET
+        </span>
+        <span class="bg-pastel-pink text-purple-800 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider hidden sm:inline-block border border-pink-300">
+          ✨ LOCKET PORTAL ✨
+        </span>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="hidden md:flex items-center space-x-6 font-semibold text-kawaii-dark">
+        <a href="#members-section" class="hover:text-pink-600 transition hover:scale-105">🌸 Members</a>
+        <a href="#schedule-section" class="hover:text-pink-600 transition hover:scale-105">📅 Schedule</a>
+        <a href="#gallery-section" class="hover:text-pink-600 transition hover:scale-105">🖼️ Gallery</a>
+        <a href="#quiz-section" class="hover:text-pink-600 transition hover:scale-105">🎀 Quiz</a>
+        <a href="#fanwall-section" class="hover:text-pink-600 transition hover:scale-105">💌 Fan Wall</a>
+      </nav>
+
+      <!-- Quick Action Button -->
+      <a href="#fanwall-section" class="bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold px-4 py-2 rounded-full flex items-center space-x-2 text-sm">
+        <span>💌 Leave Note</span>
+      </a>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4 pt-8 pb-12 text-center relative">
+    <!-- Floating Badges -->
+    <div class="absolute top-4 left-6 hidden lg:block floating-element" style="animation-delay: 0s;">
+      <span class="bg-pastel-yellow text-amber-800 font-bold px-4 py-2 rounded-2xl shadow-md border-2 border-white inline-block transform -rotate-12">
+        🎀 LOCKET Power!
+      </span>
+    </div>
+    <div class="absolute top-12 right-8 hidden lg:block floating-element" style="animation-delay: 1.5s;">
+      <span class="bg-pastel-blue text-blue-900 font-bold px-4 py-2 rounded-2xl shadow-md border-2 border-white inline-block transform rotate-12">
+        💫 Global Girl Group
+      </span>
+    </div>
+
+    <!-- Title Badge -->
+    <div class="inline-block bg-white/80 backdrop-blur-md px-6 py-2 rounded-full border-2 border-pink-300 mb-4 shadow-sm">
+      <span class="text-pink-500 font-bold tracking-widest text-sm uppercase">✨ Welcome to the Official Fandom Realm ✨</span>
+    </div>
+
+    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-500 mb-4 tracking-tight drop-shadow-sm">
+      GIRLSET x KAWAII WORLD
+    </h1>
+
+    <p class="text-lg md:text-xl font-medium max-w-2xl mx-auto text-purple-900 mb-8 leading-relaxed">
+      Welcome, <strong class="text-pink-600 font-bold underline decoration-wavy">LOCKETS</strong>! Explore profile stats for <span class="bg-blue-100 px-2 py-0.5 rounded-lg text-blue-700">Lexi</span>, <span class="bg-purple-100 px-2 py-0.5 rounded-lg text-purple-700">Camila</span>, <span class="bg-pink-100 px-2 py-0.5 rounded-lg text-pink-700">Kendall</span>, & <span class="bg-emerald-100 px-2 py-0.5 rounded-lg text-emerald-700">Savanna</span>, check out comeback schedules, view aesthetic photos, and leave sticky notes on the Fan Wall! ✨
+    </p>
+
+    <!-- Comeback Countdown Widget -->
+    <div class="glass-card max-w-xl mx-auto rounded-3xl p-6 border-4 border-pink-200/80 mb-10 shadow-xl relative overflow-hidden">
+      <div class="absolute -top-6 -right-6 text-6xl opacity-20">🎉</div>
+      <h3 class="text-xl font-bold text-purple-900 mb-2 flex items-center justify-center gap-2">
+        <span>⏰</span> Next Comeback Teaser Countdown <span>🚀</span>
+      </h3>
+      <p class="text-xs text-purple-600 mb-4">Targeting Next GIRLSET Special Concept Teaser Drop</p>
+      
+      <div class="grid grid-cols-4 gap-3 text-center">
+        <div class="bg-white/80 rounded-2xl p-3 border-2 border-pink-200 shadow-sm">
+          <span id="cd-days" class="text-2xl sm:text-3xl font-extrabold text-pink-500 block">18</span>
+          <span class="text-xs font-semibold text-gray-600">DAYS</span>
+        </div>
+        <div class="bg-white/80 rounded-2xl p-3 border-2 border-purple-200 shadow-sm">
+          <span id="cd-hours" class="text-2xl sm:text-3xl font-extrabold text-purple-500 block">09</span>
+          <span class="text-xs font-semibold text-gray-600">HOURS</span>
+        </div>
+        <div class="bg-white/80 rounded-2xl p-3 border-2 border-blue-200 shadow-sm">
+          <span id="cd-mins" class="text-2xl sm:text-3xl font-extrabold text-blue-500 block">42</span>
+          <span class="text-xs font-semibold text-gray-600">MINS</span>
+        </div>
+        <div class="bg-white/80 rounded-2xl p-3 border-2 border-mint-200 shadow-sm">
+          <span id="cd-secs" class="text-2xl sm:text-3xl font-extrabold text-emerald-500 block">15</span>
+          <span class="text-xs font-semibold text-gray-600">SECS</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="members-section" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-10">
+      <span class="bg-white/80 text-pink-600 px-4 py-1.5 rounded-full font-bold text-sm border border-pink-300">🌸 MEET THE MEMBERS 🌸</span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-purple-950 mt-3">The GIRLSET Quartet</h2>
+      <p class="text-purple-700 mt-2 text-sm sm:text-base">Click any member card to flip for special trivia & send them sweet LOCKET hearts! 💕</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- LEXI -->
+      <div class="flip-card h-[460px]" id="card-lexi">
+        <div class="flip-card-inner">
+          <!-- Front -->
+          <div class="flip-card-front glass-card p-6 flex flex-col justify-between border-4 border-sky-200">
+            <div>
+              <div class="relative mb-4">
+                <img src="https://placehold.co/300x320/a0c4ff/ffffff?text=LEXI+✨" alt="Lexi" class="w-full h-52 object-cover rounded-2xl border-2 border-white shadow-md">
+                <span class="absolute top-2 right-2 bg-sky-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">Pastel Blue</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-slate-800">LEXI</h3>
+              <p class="text-xs font-bold text-sky-600 uppercase tracking-wider mb-2">Leader • Main Dancer</p>
+              <p class="text-xs text-slate-600 leading-relaxed">Bright leadership energy, powerhouse dance precision, and infectious mega smiles!</p>
+            </div>
+            <div class="space-y-2">
+              <button onclick="flipCard('card-lexi')" class="w-full bubbly-btn bg-sky-200 hover:bg-sky-300 text-sky-900 font-bold py-2 rounded-xl text-xs">
+                ✨ View Bio & Trivia
+              </button>
+              <button onclick="sendHeart('lexi', event)" class="w-full bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                <span>💖 Send Love</span>
+                <span id="hearts-lexi" class="bg-white/30 px-2 py-0.5 rounded-full text-xs">1,240</span>
+              </button>
+            </div>
+          </div>
+          <!-- Back -->
+          <div class="flip-card-back glass-card p-6 flex flex-col justify-between border-4 border-sky-300 bg-sky-50/90 text-left">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-2xl font-extrabold text-sky-900">LEXI Profile</h3>
+                <span class="text-2xl">👑</span>
+              </div>
+              <ul class="text-xs text-sky-950 space-y-2">
+                <li><strong>🎂 Specialty:</strong> Choreography & Stage presence</li>
+                <li><strong>🎨 Fav Color:</strong> Pastel Sky Blue & Cloud White</li>
+                <li><strong>🐾 Cute Charm:</strong> Always full of positive pep talks before stage time!</li>
+                <li><strong>💬 Quote:</strong> "LOCKETS are our endless energy source!"</li>
+              </ul>
+            </div>
+            <button onclick="flipCard('card-lexi')" class="w-full bubbly-btn bg-sky-400 text-white font-bold py-2 rounded-xl text-xs mt-4">
+              ↩️ Flip Back
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAMILA -->
+      <div class="flip-card h-[460px]" id="card-camila">
+        <div class="flip-card-inner">
+          <!-- Front -->
+          <div class="flip-card-front glass-card p-6 flex flex-col justify-between border-4 border-purple-200">
+            <div>
+              <div class="relative mb-4">
+                <img src="https://placehold.co/300x320/e8aeff/ffffff?text=CAMILA+💜" alt="Camila" class="w-full h-52 object-cover rounded-2xl border-2 border-white shadow-md">
+                <span class="absolute top-2 right-2 bg-purple-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">Pastel Lavender</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-purple-950">CAMILA</h3>
+              <p class="text-xs font-bold text-purple-600 uppercase tracking-wider mb-2">Main Vocalist</p>
+              <p class="text-xs text-purple-800 leading-relaxed">Soulful, resonant vocal range and chic aesthetic charm that melts LOCKET hearts.</p>
+            </div>
+            <div class="space-y-2">
+              <button onclick="flipCard('card-camila')" class="w-full bubbly-btn bg-purple-200 hover:bg-purple-300 text-purple-900 font-bold py-2 rounded-xl text-xs">
+                ✨ View Bio & Trivia
+              </button>
+              <button onclick="sendHeart('camila', event)" class="w-full bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                <span>💖 Send Love</span>
+                <span id="hearts-camila" class="bg-white/30 px-2 py-0.5 rounded-full text-xs">1,580</span>
+              </button>
+            </div>
+          </div>
+          <!-- Back -->
+          <div class="flip-card-back glass-card p-6 flex flex-col justify-between border-4 border-purple-300 bg-purple-50/90 text-left">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-2xl font-extrabold text-purple-900">CAMILA Profile</h3>
+                <span class="text-2xl">🎤</span>
+              </div>
+              <ul class="text-xs text-purple-950 space-y-2">
+                <li><strong>🎂 Specialty:</strong> Melodic harmonies & vocal acoustics</li>
+                <li><strong>🎨 Fav Color:</strong> Lavender Purple & Chic Onyx</li>
+                <li><strong>🐾 Cute Charm:</strong> Cozy hoodie collector & boba tea enthusiast</li>
+                <li><strong>💬 Quote:</strong> "Singing for LOCKETS is my favorite place to be!"</li>
+              </ul>
+            </div>
+            <button onclick="flipCard('card-camila')" class="w-full bubbly-btn bg-purple-400 text-white font-bold py-2 rounded-xl text-xs mt-4">
+              ↩️ Flip Back
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KENDALL -->
+      <div class="flip-card h-[460px]" id="card-kendall">
+        <div class="flip-card-inner">
+          <!-- Front -->
+          <div class="flip-card-front glass-card p-6 flex flex-col justify-between border-4 border-pink-200">
+            <div>
+              <div class="relative mb-4">
+                <img src="https://placehold.co/300x320/ffc6ff/ffffff?text=KENDALL+🎀" alt="Kendall" class="w-full h-52 object-cover rounded-2xl border-2 border-white shadow-md">
+                <span class="absolute top-2 right-2 bg-pink-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">Pastel Pink</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-pink-950">KENDALL</h3>
+              <p class="text-xs font-bold text-pink-600 uppercase tracking-wider mb-2">Visual • Sub-Vocalist</p>
+              <p class="text-xs text-pink-800 leading-relaxed">Captivating stage expressions, sweet style, and effortless fairy-tale aura.</p>
+            </div>
+            <div class="space-y-2">
+              <button onclick="flipCard('card-kendall')" class="w-full bubbly-btn bg-pink-200 hover:bg-pink-300 text-pink-900 font-bold py-2 rounded-xl text-xs">
+                ✨ View Bio & Trivia
+              </button>
+              <button onclick="sendHeart('kendall', event)" class="w-full bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                <span>💖 Send Love</span>
+                <span id="hearts-kendall" class="bg-white/30 px-2 py-0.5 rounded-full text-xs">1,410</span>
+              </button>
+            </div>
+          </div>
+          <!-- Back -->
+          <div class="flip-card-back glass-card p-6 flex flex-col justify-between border-4 border-pink-300 bg-pink-50/90 text-left">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-2xl font-extrabold text-pink-900">KENDALL Profile</h3>
+                <span class="text-2xl">🎀</span>
+              </div>
+              <ul class="text-xs text-pink-950 space-y-2">
+                <li><strong>🎂 Specialty:</strong> Facial expressions & stage fashion</li>
+                <li><strong>🎨 Fav Color:</strong> Strawberry Milk Pink</li>
+                <li><strong>🐾 Cute Charm:</strong> Loves taking cute polaroid photos of the members</li>
+                <li><strong>💬 Quote:</strong> "Stay sweet & bright always, LOCKETS!"</li>
+              </ul>
+            </div>
+            <button onclick="flipCard('card-kendall')" class="w-full bubbly-btn bg-pink-400 text-white font-bold py-2 rounded-xl text-xs mt-4">
+              ↩️ Flip Back
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SAVANNA -->
+      <div class="flip-card h-[460px]" id="card-savanna">
+        <div class="flip-card-inner">
+          <!-- Front -->
+          <div class="flip-card-front glass-card p-6 flex flex-col justify-between border-4 border-emerald-200">
+            <div>
+              <div class="relative mb-4">
+                <img src="https://placehold.co/300x320/caffbf/ffffff?text=SAVANNA+🌱" alt="Savanna" class="w-full h-52 object-cover rounded-2xl border-2 border-white shadow-md">
+                <span class="absolute top-2 right-2 bg-emerald-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">Mint Green</span>
+              </div>
+              <h3 class="text-2xl font-extrabold text-emerald-950">SAVANNA</h3>
+              <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Main Rapper • Main Dancer</p>
+              <p class="text-xs text-emerald-800 leading-relaxed">Dynamic flow, powerful dance grooves, and energetic sunshine personality!</p>
+            </div>
+            <div class="space-y-2">
+              <button onclick="flipCard('card-savanna')" class="w-full bubbly-btn bg-emerald-200 hover:bg-emerald-300 text-emerald-900 font-bold py-2 rounded-xl text-xs">
+                ✨ View Bio & Trivia
+              </button>
+              <button onclick="sendHeart('savanna', event)" class="w-full bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold py-2 rounded-xl text-xs flex items-center justify-center gap-2">
+                <span>💖 Send Love</span>
+                <span id="hearts-savanna" class="bg-white/30 px-2 py-0.5 rounded-full text-xs">1,390</span>
+              </button>
+            </div>
+          </div>
+          <!-- Back -->
+          <div class="flip-card-back glass-card p-6 flex flex-col justify-between border-4 border-emerald-300 bg-emerald-50/90 text-left">
+            <div>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="text-2xl font-extrabold text-emerald-900">SAVANNA Profile</h3>
+                <span class="text-2xl">⚡</span>
+              </div>
+              <ul class="text-xs text-emerald-950 space-y-2">
+                <li><strong>🎂 Specialty:</strong> Fast rap cadence & locking dance</li>
+                <li><strong>🎨 Fav Color:</strong> Fresh Mint & Lime Accent</li>
+                <li><strong>🐾 Cute Charm:</strong> Always making up fun secret handshakes with fans</li>
+                <li><strong>💬 Quote:</strong> "Let's make every moment sparkle!"</li>
+              </ul>
+            </div>
+            <button onclick="flipCard('card-savanna')" class="w-full bubbly-btn bg-emerald-400 text-white font-bold py-2 rounded-xl text-xs mt-4">
+              ↩️ Flip Back
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="schedule-section" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-10">
+      <span class="bg-white/80 text-purple-600 px-4 py-1.5 rounded-full font-bold text-sm border border-purple-300">📅 SCHEDULE & NEWS</span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-purple-950 mt-3">Comeback & Event Timeline</h2>
+      <p class="text-purple-700 mt-2 text-sm sm:text-base">Stay updated with upcoming teaser releases, fan meets, and promotional dates!</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Schedule Timeline -->
+      <div class="lg:col-span-7 glass-card rounded-3xl p-6 border-4 border-purple-200">
+        <h3 class="text-xl font-bold text-purple-900 mb-6 flex items-center gap-2">
+          <span>🗓️</span> Upcoming LOCKET Calendar
+        </h3>
+
+        <div class="space-y-4">
+          <div class="bg-white/80 p-4 rounded-2xl border-2 border-pink-200 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="bg-pink-400 text-white font-bold text-xs px-3 py-2 rounded-xl text-center min-w-[65px]">
+                OCT 20<br/><span class="text-lg">2026</span>
+              </span>
+              <div>
+                <h4 class="font-extrabold text-purple-950 text-sm">Concept Photo Teaser Drop #1</h4>
+                <p class="text-xs text-purple-600">Pastel Cyberpunk Aesthetic Look</p>
+              </div>
+            </div>
+            <span class="bg-pink-100 text-pink-700 text-[10px] font-bold px-2.5 py-1 rounded-full">CONFIRMED</span>
+          </div>
+
+          <div class="bg-white/80 p-4 rounded-2xl border-2 border-purple-200 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="bg-purple-400 text-white font-bold text-xs px-3 py-2 rounded-xl text-center min-w-[65px]">
+                OCT 28<br/><span class="text-lg">2026</span>
+              </span>
+              <div>
+                <h4 class="font-extrabold text-purple-950 text-sm">GIRLSET World Fanmeet Online Stream</h4>
+                <p class="text-xs text-purple-600">Live Q&A and Games with Lexi, Camila, Kendall, Savanna</p>
+              </div>
+            </div>
+            <span class="bg-purple-100 text-purple-700 text-[10px] font-bold px-2.5 py-1 rounded-full">UPCOMING</span>
+          </div>
+
+          <div class="bg-white/80 p-4 rounded-2xl border-2 border-sky-200 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="bg-sky-400 text-white font-bold text-xs px-3 py-2 rounded-xl text-center min-w-[65px]">
+                NOV 05<br/><span class="text-lg">2026</span>
+              </span>
+              <div>
+                <h4 class="font-extrabold text-purple-950 text-sm">Album Packaging Preview & Pre-Orders</h4>
+                <p class="text-xs text-purple-600">Special LOCKET Photocard Collectible Edition</p>
+              </div>
+            </div>
+            <span class="bg-sky-100 text-sky-700 text-[10px] font-bold px-2.5 py-1 rounded-full">SOON</span>
+          </div>
+
+          <div class="bg-white/80 p-4 rounded-2xl border-2 border-emerald-200 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+              <span class="bg-emerald-400 text-white font-bold text-xs px-3 py-2 rounded-xl text-center min-w-[65px]">
+                NOV 18<br/><span class="text-lg">2026</span>
+              </span>
+              <div>
+                <h4 class="font-extrabold text-purple-950 text-sm">Global Comeback Showcase Day</h4>
+                <p class="text-xs text-purple-600">Stage Choreography Premiere & Official Merchandise</p>
+              </div>
+            </div>
+            <span class="bg-emerald-100 text-emerald-700 text-[10px] font-bold px-2.5 py-1 rounded-full">MAJOR EVENT</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- News & Announcements Feed -->
+      <div class="lg:col-span-5 glass-card rounded-3xl p-6 border-4 border-pink-200">
+        <h3 class="text-xl font-bold text-purple-900 mb-6 flex items-center gap-2">
+          <span>📢</span> LOCKET News Feed
+        </h3>
+
+        <div class="space-y-4">
+          <div class="bg-white/70 p-4 rounded-2xl border border-pink-200">
+            <span class="text-[10px] font-bold text-pink-600 uppercase tracking-wider block mb-1">🎉 Milestone Announcement</span>
+            <h5 class="font-bold text-purple-950 text-xs mb-1">LOCKET Fan Club Reaches 2 Million Global Members!</h5>
+            <p class="text-[11px] text-gray-600 leading-relaxed">GIRLSET expressed deep gratitude to all LOCKETS for their endless support during recent showcase stages.</p>
+          </div>
+
+          <div class="bg-white/70 p-4 rounded-2xl border border-purple-200">
+            <span class="text-[10px] font-bold text-purple-600 uppercase tracking-wider block mb-1">✨ Style & Fashion</span>
+            <h5 class="font-bold text-purple-950 text-xs mb-1">Lexi & Kendall Featured on Kawaii Pop Magazine Cover</h5>
+            <p class="text-[11px] text-gray-600 leading-relaxed">The members rocked pastel street styles with oversized bows and glitter makeup in the new autumn issue.</p>
+          </div>
+
+          <div class="bg-white/70 p-4 rounded-2xl border border-emerald-200">
+            <span class="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block mb-1">🌱 Stage Practice</span>
+            <h5 class="font-bold text-purple-950 text-xs mb-1">Savanna & Camila Share Behind-the-Scenes Dance Vlog</h5>
+            <p class="text-[11px] text-gray-600 leading-relaxed">Watch the girls practice high-energy synchronised choreography and laugh together during rehearsal breaks!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery-section" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-10">
+      <span class="bg-white/80 text-pink-600 px-4 py-1.5 rounded-full font-bold text-sm border border-pink-300">🖼️ CONCEPT GALLERY</span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-purple-950 mt-3">Aesthetic Concept Teasers</h2>
+      <p class="text-purple-700 mt-2 text-sm sm:text-base">Click any photo to zoom in and check out the full high-res concept look!</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="glass-card rounded-2xl p-2 cursor-pointer group" onclick="openPhotoModal('https://placehold.co/600x800/a0c4ff/ffffff?text=LEXI+CONCEPT+✨', 'Lexi - Pastel Blue Sparkle Concept')">
+        <img src="https://placehold.co/300x400/a0c4ff/ffffff?text=LEXI+CONCEPT+✨" alt="Lexi" class="w-full h-60 object-cover rounded-xl group-hover:scale-105 transition">
+        <p class="text-center text-xs font-bold text-purple-900 mt-2">Lexi ✨</p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-2 cursor-pointer group" onclick="openPhotoModal('https://placehold.co/600x800/e8aeff/ffffff?text=CAMILA+CONCEPT+💜', 'Camila - Lavender Glow Concept')">
+        <img src="https://placehold.co/300x400/e8aeff/ffffff?text=CAMILA+CONCEPT+💜" alt="Camila" class="w-full h-60 object-cover rounded-xl group-hover:scale-105 transition">
+        <p class="text-center text-xs font-bold text-purple-900 mt-2">Camila 💜</p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-2 cursor-pointer group" onclick="openPhotoModal('https://placehold.co/600x800/ffc6ff/ffffff?text=KENDALL+CONCEPT+🎀', 'Kendall - Strawberry Milk Concept')">
+        <img src="https://placehold.co/300x400/ffc6ff/ffffff?text=KENDALL+CONCEPT+🎀" alt="Kendall" class="w-full h-60 object-cover rounded-xl group-hover:scale-105 transition">
+        <p class="text-center text-xs font-bold text-purple-900 mt-2">Kendall 🎀</p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-2 cursor-pointer group" onclick="openPhotoModal('https://placehold.co/600x800/caffbf/ffffff?text=SAVANNA+CONCEPT+🌱', 'Savanna - Mint Sunshine Concept')">
+        <img src="https://placehold.co/300x400/caffbf/ffffff?text=SAVANNA+CONCEPT+🌱" alt="Savanna" class="w-full h-60 object-cover rounded-xl group-hover:scale-105 transition">
+        <p class="text-center text-xs font-bold text-purple-900 mt-2">Savanna 🌱</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz-section" class="max-w-4xl mx-auto px-4 py-12">
+    <div class="glass-card rounded-3xl p-8 border-4 border-pink-300 text-center relative overflow-hidden">
+      <div class="inline-block bg-pink-100 text-pink-700 font-bold text-xs px-4 py-1 rounded-full mb-3">
+        🎀 KAWAII QUIZ 🎀
+      </div>
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-purple-950">Which GIRLSET Member Are You?</h2>
+      <p class="text-purple-700 text-sm mt-1 mb-6">Answer 3 cute questions to discover your GIRLSET match!</p>
+
+      <div id="quiz-container" class="max-w-xl mx-auto text-left space-y-6">
+        <!-- Question 1 -->
+        <div class="quiz-q bg-white/70 p-5 rounded-2xl border-2 border-purple-200">
+          <h4 class="font-bold text-purple-900 mb-3 text-sm sm:text-base">1. What's your ideal weekend activity?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button onclick="selectQuiz(1, 'lexi')" class="q-btn-1 bubbly-btn bg-sky-50 hover:bg-sky-100 text-sky-900 p-3 rounded-xl text-xs font-semibold text-left border border-sky-200">
+              🕺 Learning a new fast dance routine!
+            </button>
+            <button onclick="selectQuiz(1, 'camila')" class="q-btn-1 bubbly-btn bg-purple-50 hover:bg-purple-100 text-purple-900 p-3 rounded-xl text-xs font-semibold text-left border border-purple-200">
+              🎧 Sips iced lavender tea & listening to music
+            </button>
+            <button onclick="selectQuiz(1, 'kendall')" class="q-btn-1 bubbly-btn bg-pink-50 hover:bg-pink-100 text-pink-900 p-3 rounded-xl text-xs font-semibold text-left border border-pink-200">
+              📸 Taking aesthetic polaroids & dressing up
+            </button>
+            <button onclick="selectQuiz(1, 'savanna')" class="q-btn-1 bubbly-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 p-3 rounded-xl text-xs font-semibold text-left border border-emerald-200">
+              🛹 Skateboarding or making funny videos
+            </button>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="quiz-q bg-white/70 p-5 rounded-2xl border-2 border-purple-200">
+          <h4 class="font-bold text-purple-900 mb-3 text-sm sm:text-base">2. Pick your favorite aesthetic vibe:</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button onclick="selectQuiz(2, 'lexi')" class="q-btn-2 bubbly-btn bg-sky-50 hover:bg-sky-100 text-sky-900 p-3 rounded-xl text-xs font-semibold text-left border border-sky-200">
+              ☁️ Soft Blue Cloudscape
+            </button>
+            <button onclick="selectQuiz(2, 'camila')" class="q-btn-2 bubbly-btn bg-purple-50 hover:bg-purple-100 text-purple-900 p-3 rounded-xl text-xs font-semibold text-left border border-purple-200">
+              🌙 Pastel Lavender Twilight
+            </button>
+            <button onclick="selectQuiz(2, 'kendall')" class="q-btn-2 bubbly-btn bg-pink-50 hover:bg-pink-100 text-pink-900 p-3 rounded-xl text-xs font-semibold text-left border border-pink-200">
+              🌸 Strawberry Milk Bows
+            </button>
+            <button onclick="selectQuiz(2, 'savanna')" class="q-btn-2 bubbly-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 p-3 rounded-xl text-xs font-semibold text-left border border-emerald-200">
+              🌱 Fresh Mint Sparkle
+            </button>
+          </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="quiz-q bg-white/70 p-5 rounded-2xl border-2 border-purple-200">
+          <h4 class="font-bold text-purple-900 mb-3 text-sm sm:text-base">3. What role do you play in your friend group?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <button onclick="selectQuiz(3, 'lexi')" class="q-btn-3 bubbly-btn bg-sky-50 hover:bg-sky-100 text-sky-900 p-3 rounded-xl text-xs font-semibold text-left border border-sky-200">
+              👑 The organized leader who brings positive vibes
+            </button>
+            <button onclick="selectQuiz(3, 'camila')" class="q-btn-3 bubbly-btn bg-purple-50 hover:bg-purple-100 text-purple-900 p-3 rounded-xl text-xs font-semibold text-left border border-purple-200">
+              🎶 The soulful artist with deep & thoughtful advice
+            </button>
+            <button onclick="selectQuiz(3, 'kendall')" class="q-btn-3 bubbly-btn bg-pink-50 hover:bg-pink-100 text-pink-900 p-3 rounded-xl text-xs font-semibold text-left border border-pink-200">
+              🎀 The sweet sweetheart with top fashion sense
+            </button>
+            <button onclick="selectQuiz(3, 'savanna')" class="q-btn-3 bubbly-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 p-3 rounded-xl text-xs font-semibold text-left border border-emerald-200">
+              ⚡ The energetic comedian who makes everyone laugh
+            </button>
+          </div>
+        </div>
+
+        <button onclick="calculateQuizResult()" class="w-full bubbly-btn bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 text-white font-extrabold py-3 rounded-2xl shadow-lg text-base">
+          ✨ Reveal My GIRLSET Twin Match!
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="fanwall-section" class="max-w-6xl mx-auto px-4 py-12">
+    <div class="text-center mb-8">
+      <span class="bg-white/80 text-pink-600 px-4 py-1.5 rounded-full font-bold text-sm border border-pink-300">💌 LOCKET FAN WALL</span>
+      <h2 class="text-3xl sm:text-5xl font-extrabold text-purple-950 mt-3">Leave a Sweet Fan Note!</h2>
+      <p class="text-purple-700 mt-2 text-sm sm:text-base">Post a message for Lexi, Camila, Kendall, Savanna, or fellow LOCKETS!</p>
+    </div>
+
+    <!-- Add Note Box -->
+    <div class="glass-card max-w-xl mx-auto rounded-3xl p-6 border-4 border-white mb-10 shadow-lg">
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-purple-900 mb-1">Your LOCKET Nickname:</label>
+          <input type="text" id="note-author" placeholder="e.g. PastelLocket99 ✨" class="w-full px-4 py-2 rounded-xl bg-white/80 border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-purple-900 mb-1">Sticky Note Color:</label>
+            <div class="flex space-x-2">
+              <label class="cursor-pointer flex items-center space-x-1">
+                <input type="radio" name="note-color" value="pink" checked class="accent-pink-500">
+                <span class="w-5 h-5 rounded-full bg-pink-200 border border-pink-400 inline-block"></span>
+              </label>
+              <label class="cursor-pointer flex items-center space-x-1">
+                <input type="radio" name="note-color" value="purple" class="accent-purple-500">
+                <span class="w-5 h-5 rounded-full bg-purple-200 border border-purple-400 inline-block"></span>
+              </label>
+              <label class="cursor-pointer flex items-center space-x-1">
+                <input type="radio" name="note-color" value="blue" class="accent-blue-500">
+                <span class="w-5 h-5 rounded-full bg-blue-200 border border-blue-400 inline-block"></span>
+              </label>
+              <label class="cursor-pointer flex items-center space-x-1">
+                <input type="radio" name="note-color" value="mint" class="accent-emerald-500">
+                <span class="w-5 h-5 rounded-full bg-emerald-200 border border-emerald-400 inline-block"></span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-purple-900 mb-1">Add Kawaii Sticker:</label>
+            <select id="note-sticker" class="w-full px-3 py-1.5 rounded-xl bg-white/80 border border-purple-200 text-xs font-bold focus:outline-none">
+              <option value="💖">💖 Heart</option>
+              <option value="🎀">🎀 Ribbon Bow</option>
+              <option value="🌸">🌸 Cherry Blossom</option>
+              <option value="👑">👑 Crown</option>
+              <option value="⚡">⚡ Lightning Spark</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-purple-900 mb-1">Your Cute Message:</label>
+          <textarea id="note-msg" rows="3" placeholder="GIRLSET fighting! We love you so much!! 💕✨" class="w-full px-4 py-2 rounded-xl bg-white/80 border border-purple-200 focus:outline-none focus:ring-2 focus:ring-pink-400 text-sm"></textarea>
+        </div>
+
+        <button onclick="addFanNote()" class="w-full bubbly-btn bg-pink-400 hover:bg-pink-500 text-white font-bold py-2.5 rounded-xl text-sm shadow">
+          🎀 Post My Note to Fan Wall
+        </button>
+      </div>
+    </div>
+
+    <!-- Notes Grid -->
+    <div id="fan-notes-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Default initial notes dynamically rendered -->
+    </div>
+  </section>
+
+  <footer class="bg-purple-950 text-white py-10 px-4 mt-16 relative overflow-hidden">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <div>
+        <h3 class="font-bubbly text-2xl font-bold text-pink-300">✨ GIRLSET x KAWAII WORLD ✨</h3>
+        <p class="text-xs text-purple-300 mt-1">Made with endless love & sparkles for LOCKETS worldwide!</p>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <a href="#" onclick="alert('Opening official YouTube channel!')" class="w-10 h-10 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center text-white transition transform hover:scale-110">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#" onclick="alert('Opening official Instagram page!')" class="w-10 h-10 rounded-full bg-purple-500 hover:bg-purple-600 flex items-center justify-center text-white transition transform hover:scale-110">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="#" onclick="alert('Opening official X / Twitter page!')" class="w-10 h-10 rounded-full bg-sky-500 hover:bg-sky-600 flex items-center justify-center text-white transition transform hover:scale-110">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+    </div>
+    <div class="text-center text-xs text-purple-400 mt-8 pt-6 border-t border-purple-900">
+      &copy; 2026 GIRLSET Fan Portal. Powered by LOCKET energy & Kawaii Magic.
+    </div>
+  </footer>
+
+  <!-- Photo Modal -->
+  <div id="photo-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full rounded-3xl p-6 border-4 border-pink-300 relative text-center">
+      <button onclick="closePhotoModal()" class="absolute top-4 right-4 text-purple-800 hover:text-pink-600 text-xl font-bold">✕</button>
+      <img id="photo-modal-img" src="" alt="Concept" class="w-full h-80 object-cover rounded-2xl border-2 border-white mb-3">
+      <h3 id="photo-modal-caption" class="text-lg font-extrabold text-purple-950">Concept Preview</h3>
+      <button onclick="closePhotoModal()" class="bubbly-btn bg-pink-400 text-white font-bold px-6 py-2 rounded-xl text-xs mt-4">
+        Close Preview
+      </button>
+    </div>
+  </div>
+
+  <!-- Quiz Modal -->
+  <div id="quiz-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="glass-card max-w-md w-full rounded-3xl p-6 border-4 border-pink-300 relative text-center">
+      <button onclick="closeQuizModal()" class="absolute top-4 right-4 text-purple-800 hover:text-pink-600 text-xl font-bold">✕</button>
+      <span class="text-4xl mb-2 inline-block animate-bounce">🎉</span>
+      <p class="text-xs font-bold text-pink-600 uppercase">Your GIRLSET Match Is...</p>
+      <h3 id="quiz-match-name" class="text-3xl font-extrabold text-purple-950 mb-2">LEXI</h3>
+      <div id="quiz-match-desc" class="bg-white/80 p-4 rounded-2xl text-xs text-purple-900 leading-relaxed mb-4 border border-purple-200">
+        <!-- Match description -->
+      </div>
+      <button onclick="closeQuizModal()" class="bubbly-btn bg-purple-500 text-white font-bold px-6 py-2 rounded-xl text-xs">
+        Yay! Share & Play Again
+      </button>
+    </div>
+  </div>
+
+  <script>
+    let audioCtx = null;
+
+    /* Web Audio Synthesized Chime sound effect generator */
+    function playCuteChime(freq = 523.25, type = 'sine') {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.25);
+      } catch(e){}
+    }
+
+    /* Flip Card Toggle */
+    function flipCard(cardId) {
+      playCuteChime(587.33);
+      const card = document.getElementById(cardId);
+      card.classList.toggle('flipped');
+    }
+
+    /* Send Heart Particle effect */
+    function sendHeart(memberName, event) {
+      playCuteChime(880);
+      const counter = document.getElementById(`hearts-${memberName}`);
+      let count = parseInt(counter.innerText.replace(',', '')) + 1;
+      counter.innerText = count.toLocaleString();
+
+      // Spawn floating heart
+      const heart = document.createElement('div');
+      heart.className = 'floating-heart text-2xl';
+      heart.innerText = ['💖', '✨', '🌸', '🎀', '💕'][Math.floor(Math.random() * 5)];
+      heart.style.left = (event.clientX - 12) + 'px';
+      heart.style.top = (event.clientY - 12) + 'px';
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 1500);
+    }
+
+    /* Concept Photo Zoom Modal */
+    function openPhotoModal(imgSrc, caption) {
+      playCuteChime(659.25);
+      document.getElementById('photo-modal-img').src = imgSrc;
+      document.getElementById('photo-modal-caption').innerText = caption;
+      document.getElementById('photo-modal').classList.remove('hidden');
+    }
+
+    function closePhotoModal() {
+      playCuteChime(440);
+      document.getElementById('photo-modal').classList.add('hidden');
+    }
+
+    /* Quiz System */
+    const quizAnswers = { 1: null, 2: null, 3: null };
+
+    function selectQuiz(qNum, member) {
+      playCuteChime(659.25);
+      quizAnswers[qNum] = member;
+      const btns = document.querySelectorAll(`.q-btn-${qNum}`);
+      btns.forEach(b => b.classList.remove('ring-4', 'ring-pink-400', 'scale-105'));
+      event.currentTarget.classList.add('ring-4', 'ring-pink-400', 'scale-105');
+    }
+
+    function calculateQuizResult() {
+      if (!quizAnswers[1] || !quizAnswers[2] || !quizAnswers[3]) {
+        alert("Please answer all 3 cute questions first! ✨");
+        return;
+      }
+      playCuteChime(880);
+
+      const counts = { lexi: 0, camila: 0, kendall: 0, savanna: 0 };
+      Object.values(quizAnswers).forEach(m => counts[m]++);
+
+      let winner = 'lexi';
+      let maxC = -1;
+      for (let m in counts) {
+        if (counts[m] > maxC) {
+          maxC = counts[m];
+          winner = m;
+        }
+      }
+
+      const profiles = {
+        lexi: { name: "LEXI 👑", desc: "You are the energetic Leader Lexi! You lead with warm optimism, incredible passion for dance, and always bring out the brightest smiles in everyone around you!" },
+        camila: { name: "CAMILA 🎤", desc: "You are the vocal queen Camila! You have a chic, soulful aesthetic, love deep acoustic harmonies, and bring warmth and comfort to all LOCKETS!" },
+        kendall: { name: "KENDALL 🎀", desc: "You are the sweet visual Kendall! You light up every room with your fairytale charm, aesthetic style, and gentle honey energy!" },
+        savanna: { name: "SAVANNA ⚡", desc: "You are the powerhouse Savanna! You are full of high-octane rap energy, cool dance locking moves, and hilarious sunshiny comedy!" }
+      };
+
+      document.getElementById('quiz-match-name').innerText = profiles[winner].name;
+      document.getElementById('quiz-match-desc').innerText = profiles[winner].desc;
+      document.getElementById('quiz-modal').classList.remove('hidden');
+    }
+
+    function closeQuizModal() {
+      playCuteChime(440);
+      document.getElementById('quiz-modal').classList.add('hidden');
+    }
+
+    /* LOCKET Fan Wall Sticky Notes Storage & Render */
+    const defaultNotes = [
+      { author: "KawaiiLocket_01", color: "pink", sticker: "💖", text: "Lexi's stage energy is unbelievable! GIRLSET world domination! 💕" },
+      { author: "LavenderVibes", color: "purple", sticker: "🎀", text: "Camila's acoustic vlogs always give me total comfort! 💜" },
+      { author: "KendallFairy", color: "blue", sticker: "🌸", text: "Sending endless love from Brazil! LOCKETS forever! 🇧🇷✨" },
+      { author: "SavannaGroove", color: "mint", sticker: "⚡", text: "Savanna's rap style lives in my head rent free! 🌱⚡" }
+    ];
+
+    function loadFanNotes() {
+      const saved = localStorage.getItem('girlset_fan_notes');
+      const notes = saved ? JSON.parse(saved) : defaultNotes;
+      const grid = document.getElementById('fan-notes-grid');
+      grid.innerHTML = '';
+
+      const colorMap = {
+        pink: 'bg-pink-100 border-pink-300 text-pink-950',
+        purple: 'bg-purple-100 border-purple-300 text-purple-950',
+        blue: 'bg-sky-100 border-sky-300 text-sky-950',
+        mint: 'bg-emerald-100 border-emerald-300 text-emerald-950'
+      };
+
+      notes.forEach(note => {
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-2xl border-2 shadow-sm ${colorMap[note.color] || colorMap.pink} transform hover:-translate-y-1 transition flex flex-col justify-between h-36 relative overflow-hidden`;
+        card.innerHTML = `
+          <span class="absolute top-2 right-2 text-xl opacity-40">${note.sticker || '✨'}</span>
+          <p class="text-xs font-medium leading-relaxed overflow-y-auto pr-4">"${note.text}"</p>
+          <div class="flex items-center justify-between text-[10px] font-bold opacity-80 pt-2 border-t border-black/10">
+            <span>💌 ${note.author}</span>
+            <span>✨ LOCKET</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function addFanNote() {
+      const author = document.getElementById('note-author').value.trim() || 'Anonymous LOCKET';
+      const msg = document.getElementById('note-msg').value.trim();
+      const sticker = document.getElementById('note-sticker').value;
+      if (!msg) {
+        alert("Please write a cute fan message first! 💕");
+        return;
+      }
+      playCuteChime(880);
+
+      const color = document.querySelector('input[name="note-color"]:checked').value;
+      const saved = localStorage.getItem('girlset_fan_notes');
+      const notes = saved ? JSON.parse(saved) : defaultNotes;
+
+      notes.unshift({ author, color, sticker, text: msg });
+      localStorage.setItem('girlset_fan_notes', JSON.stringify(notes));
+
+      document.getElementById('note-msg').value = '';
+      loadFanNotes();
+    }
+
+    function scrollToTop() {
+      playCuteChime(523.25);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Sparkle Particle Cursor Effect */
+    const canvas = document.getElementById('cursor-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      if (Math.random() < 0.35) {
+        particles.push({
+          x: e.clientX,
+          y: e.clientY,
+          size: Math.random() * 6 + 2,
+          speedX: (Math.random() - 0.5) * 2,
+          speedY: (Math.random() - 0.5) * 2 - 1,
+          color: ['#FFC6FF', '#E8AEFF', '#A0C4FF', '#CAFFBF', '#FDFFB6'][Math.floor(Math.random() * 5)],
+          life: 1.0
+        });
+      }
+    });
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.life -= 0.025;
+
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          i--;
+          continue;
+        }
+
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.life;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(animateParticles);
+    }
+
+    /* Page Initialization */
+    window.onload = function() {
+      loadFanNotes();
+      animateParticles();
+    };
+  </script>
+</body>
+</html>
